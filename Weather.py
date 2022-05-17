@@ -2,6 +2,9 @@ import tkinter
 from tkinter import *
 from tkinter import ttk
 
+# Importando Pillow # para manipular as imagens melhor
+from PIL import Image
+
 # CORES #
 cor_0 = "#444466" # PRETO
 cor_1 = "#FEFFFF" # BRANCO
@@ -64,5 +67,12 @@ l_velocidade.place(x=10, y=212)
 
 l_descricao = Label(frame_corpo, text="Nublado", anchor='center', bg=fundo, fg=cor_1, font=("Arial 9"))
 l_descricao.place(x=200, y=212)
+
+imagem = Image.open('images/Sol.png') # Abrindo a imagem
+imagem = imagem.resize(130, 130) # Ajustando tamanho
+imagem = ImageTk.PhotoImage(imagem) # Para que o Tk possa abrir a imagem
+
+l_iconSol = Label(frame_corpo, image=imagem, bg=fundo,)
+l_iconSol.place(x=200, y=212)
 
 janela.mainloop()
