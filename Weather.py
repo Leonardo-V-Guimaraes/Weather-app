@@ -28,7 +28,6 @@ janela = Tk()
 janela.title('') # Nome janela
 janela.geometry('320x350') # Tamanho
 janela.configure(bg=fundo)
-
 ttk.Separator(janela, orient=HORIZONTAL).grid(row=0, column=1, ipadx=157)
 
 # CRIANDO FRAMES #
@@ -104,24 +103,51 @@ def informacao():
     l_h_nome['text'] = "Umidade"
     l_descricao['text'] = descricao
 
-    # Logica para trocar icone periodo
+    # Logica para trocar fundo
 
-    zona_periodo = datetime.now(tempo)
+    zona_periodo = datetime.now(zona_time)
     zona_periodo = zona_periodo.strftime("%H")
 
     global imagem
 
     zona_periodo = int(zona_periodo)
 
-    if zona_periodo <= 5:
+    if zona_periodo <= 5: # Ajustando o horario
+        imagem = Image.open('images/Lua.png') # Abrindo a imagem
+        fundo = fundo_noite
+    elif zona_periodo <= 11:
         imagem = Image.open('images/Sol.png') # Abrindo a imagem
-        #imagem = imagem.resize(130, 130) # Ajustando tamanho
-        imagem = ImageTk.PhotoImage(imagem) # Para que o Tk possa abrir a imagem
+        fundo = fundo_dia
+    elif zona_periodo <= 22:
+        imagem = Image.open('images/Lua.png') # Abrindo a imagem
+        fundo = fundo_noite
+    else:
+        pass
+    
 
-        l_iconSol = Label(frame_corpo, image=imagem, bg=fundo,)
-        l_iconSol.place(x=200, y=100)
+    #imagem = imagem.resize(130, 130) # Ajustando tamanho
+    imagem = ImageTk.PhotoImage(imagem) # Para que o Tk possa abrir a imagem
 
-# CONFIGURANDO FRAME TOP #
+    l_icon = Label(frame_corpo, image=imagem, bg=fundo,)
+    l_icon.place(x=200, y=100)
+
+        # Passando informações nas labels
+
+    janela.configure(bg=fundo)
+    frame_top.configure(bg=fundo)
+    frame_corpo.configure(bg=fundo)
+
+    l_cidade['bg'] = fundo
+    l_data['bg'] = fundo
+    l_pressao['bg'] = fundo 
+    l_velocidade['bg'] = fundo
+    l_umidade['bg'] = fundo 
+    l_h_simbolo['bg'] = fundo
+    l_h_nome['bg'] = fundo
+    l_descricao['bg'] = fundo
+
+
+# CONFIGURANDO FRAME Top #
 
 e_local = Entry(frame_top, width=20, justify='left', font=("", 14), highlightthickness=1, relief='solid') # Criando a box
 e_local.place(x=15, y=10) # onde a box será setada
@@ -150,7 +176,6 @@ l_pressao.place(x=10, y=184)
 
 l_velocidade = Label(frame_corpo, text="", anchor='center', bg=fundo, fg=cor_1, font=("Arial 9"))
 l_velocidade.place(x=10, y=212)
-
 
 l_descricao = Label(frame_corpo, text="", anchor='center', bg=fundo, fg=cor_1, font=("Arial 9"))
 l_descricao.place(x=210, y=170)
