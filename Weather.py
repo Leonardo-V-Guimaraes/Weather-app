@@ -12,6 +12,7 @@ from datetime import datetime
 import json
 import pytz
 import pycountry_convert as pc
+import math
 
 # CORES #
 cor_0 = "#444466" # PRETO
@@ -25,7 +26,7 @@ fundo = fundo_dia
 
 # JANELA #
 janela = Tk()
-janela.title('') # Nome janela
+janela.title('Tempo') # Nome janela
 janela.geometry('320x350') # Tamanho
 janela.configure(bg=fundo)
 ttk.Separator(janela, orient=HORIZONTAL).grid(row=0, column=1, ipadx=157)
@@ -46,7 +47,7 @@ global imagem
 # Função que retorna as informações #
 def informacao():
     
-    chave = ''
+    chave = 'c6c03a00472836edcad6d26ff591d515'
     cidade = e_local.get() # agora pega o valor de entrada para pesquisa da cidade
     api_link = 'http://api.openweathermap.org/data/2.5/weather?q={}&appid={}'.format(cidade,chave)
 
@@ -69,13 +70,16 @@ def informacao():
 
     # ----- data -----
     zona_time = pytz.timezone(zona_fuso[0]) # Pegando o primeiro valor do zona_fuso
+    print(zona_fuso)
 
     zona_horas = datetime.now(zona_time)
     zona_horas = zona_horas.strftime("%d %m %Y | %H:%M:%S:%p") # Formatando o dia/mes/ano e horario com periodo
 
 
     # ----- tempo -----
-    tempo = dados['main']['temp'] 
+    tempo = dados['main']['temp']
+    # convertendo de kelvin para celsius
+    tempo = tempo - 273,15
     pressao = dados['main']['pressure']
     umidade = dados['main']['humidity']
     velocidade = dados['wind']['speed']
@@ -94,13 +98,23 @@ def informacao():
 
     # Passando informações nas labels
 
-    l_cidade['text'] = cidade+ " - " + pais + " / " + continente # alterando o valor da l_cidade text imprimindo esses valores concatenados
+    l_cidade['text'] = cidade.title() + " - " + pais + " / " + continente # alterando o valor da l_cidade text imprimindo esses valores concatenados
     l_data['text'] = zona_horas
+    l_tempo['text'] = tempo
     l_pressao['text'] = " Pressão : " + str(pressao)
     l_velocidade['text'] = " Velocidade do Vento: " + str(velocidade)
     l_umidade['text'] = umidade
     l_h_simbolo['text'] = "%"
     l_h_nome['text'] = "Umidade"
+    if descricao == "clear sky":
+        descricao = "Céu claro"
+    elif descricao == "overcast clouds":
+        descricao = "Nublado"
+    elif descricao == "light rain":
+        descricao = "Chuva leve"
+    elif descricao == "scattered clouds":
+        descricao = "Nuvens dispersas"
+
     l_descricao['text'] = descricao
 
     # Logica para trocar fundo
@@ -139,6 +153,7 @@ def informacao():
 
     l_cidade['bg'] = fundo
     l_data['bg'] = fundo
+    l_tempo['bg'] = fundo
     l_pressao['bg'] = fundo 
     l_velocidade['bg'] = fundo
     l_umidade['bg'] = fundo 
@@ -161,6 +176,9 @@ l_cidade.place(x=10, y=4)
 
 l_data = Label(frame_corpo, text="", anchor='center', bg=fundo, fg=cor_1, font=("Arial 9"))
 l_data.place(x=10, y=54)
+
+l_tempo = Label(frame_corpo, text="", anchor='center', bg=fundo, fg=cor_1, font=("Arial 9"))
+l_tempo.place(x=210, y=54)
 
 l_umidade = Label(frame_corpo, text="", anchor='center', bg=fundo, fg=cor_1, font=("Arial 45"))
 l_umidade.place(x=10, y=100)
