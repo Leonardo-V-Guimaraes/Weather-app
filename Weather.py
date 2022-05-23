@@ -79,7 +79,10 @@ def informacao():
     # ----- tempo -----
     tempo = dados['main']['temp']
     # convertendo de kelvin para celsius
-    tempo = tempo - 273,15
+    Kelvin = 273.15
+    tempo = tempo - Kelvin
+
+    tempo = round(tempo)
     pressao = dados['main']['pressure']
     umidade = dados['main']['humidity']
     velocidade = dados['wind']['speed']
@@ -101,6 +104,7 @@ def informacao():
     l_cidade['text'] = cidade.title() + " - " + pais + " / " + continente # alterando o valor da l_cidade text imprimindo esses valores concatenados
     l_data['text'] = zona_horas
     l_tempo['text'] = tempo
+    l_tempo_simb['text'] = "°C"
     l_pressao['text'] = " Pressão : " + str(pressao)
     l_velocidade['text'] = " Velocidade do Vento: " + str(velocidade)
     l_umidade['text'] = umidade
@@ -114,6 +118,8 @@ def informacao():
         descricao = "Chuva leve"
     elif descricao == "scattered clouds":
         descricao = "Nuvens dispersas"
+    elif descricao == "few clouds":
+        descricao == "Poucas nuvens"
 
     l_descricao['text'] = descricao
 
@@ -154,6 +160,7 @@ def informacao():
     l_cidade['bg'] = fundo
     l_data['bg'] = fundo
     l_tempo['bg'] = fundo
+    l_tempo_simb['bg'] = fundo
     l_pressao['bg'] = fundo 
     l_velocidade['bg'] = fundo
     l_umidade['bg'] = fundo 
@@ -177,23 +184,35 @@ l_cidade.place(x=10, y=4)
 l_data = Label(frame_corpo, text="", anchor='center', bg=fundo, fg=cor_1, font=("Arial 9"))
 l_data.place(x=10, y=54)
 
-l_tempo = Label(frame_corpo, text="", anchor='center', bg=fundo, fg=cor_1, font=("Arial 9"))
-l_tempo.place(x=210, y=54)
+# modificação de lugar para colocada da temperatura no lugar da umidade
+# l_tempo = Label(frame_corpo, text="", anchor='center', bg=fundo, fg=cor_1, font=("Arial 9"))
+# l_tempo.place(x=210, y=54)
 
-l_umidade = Label(frame_corpo, text="", anchor='center', bg=fundo, fg=cor_1, font=("Arial 45"))
-l_umidade.place(x=10, y=100)
+l_tempo = Label(frame_corpo, text="", anchor='center', bg=fundo, fg=cor_1, font=("Arial 45"))
+l_tempo.place(x=10, y=82)
+
+# Simbolo de °C
+l_tempo_simb = Label(frame_corpo, text="", anchor='center', bg=fundo, fg=cor_1, font=("Arial 18"))
+l_tempo_simb.place(x=85, y=90)
+
+l_umidade = Label(frame_corpo, text="", anchor='center', bg=fundo, fg=cor_1, font=("Arial 9"))
+l_umidade.place(x=70, y=169)
+
+# umidade agora em apenas uma linha
+# l_umidade = Label(frame_corpo, text="", anchor='center', bg=fundo, fg=cor_1, font=("Arial 45"))
+# l_umidade.place(x=10, y=100)
 
 l_h_simbolo = Label(frame_corpo, text="", anchor='center', bg=fundo, fg=cor_1, font=("Arial 10 bold"))
-l_h_simbolo.place(x=85, y=110)
+l_h_simbolo.place(x=90, y=169)
 
 l_h_nome = Label(frame_corpo, text="", anchor='center', bg=fundo, fg=cor_1, font=("Arial 10"))
-l_h_nome.place(x=85, y=140)
+l_h_nome.place(x=10, y=169)
 
 l_pressao = Label(frame_corpo, text="", anchor='center', bg=fundo, fg=cor_1, font=("Arial 9"))
-l_pressao.place(x=10, y=184)
+l_pressao.place(x=8, y=197)
 
 l_velocidade = Label(frame_corpo, text="", anchor='center', bg=fundo, fg=cor_1, font=("Arial 9"))
-l_velocidade.place(x=10, y=212)
+l_velocidade.place(x=8, y=225)
 
 l_descricao = Label(frame_corpo, text="", anchor='center', bg=fundo, fg=cor_1, font=("Arial 9"))
 l_descricao.place(x=210, y=170)
